@@ -9,29 +9,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-#Public
-
-Route::get('/books', [AuthorController::class, '']);
-
-Route::get('/books/{$id}', [BookController::class, '']);
-
-Route::get('/authors', [AuthorController::class, '']);
-
-Route::get('/authors/books', [AuthorController::class, '']);
-
-Route::get('/genres', [AuthorController::class, '']);
-
-#Authors
-
-Route::prefix('/author')->middleware(['auth:sanctum', 'author'])->group(function () {
-
-});
-
-
-
-#Admin
-
-Route::prefix('/admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
-
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
