@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('book_audit_logs', function (Blueprint $table) {
             $table->id();
             $table->string('action', 10);
-            $table->jsonb('old_data')->nullable();
-            $table->jsonb('new_data')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->jsonb('old_data')
+                ->nullable();
+            $table->jsonb('new_data')
+                ->nullable();
+            $table->timestamp('created_at')
+                ->useCurrent();
         });
 
         DB::unprepared('CREATE OR REPLACE FUNCTION log_book_changes()

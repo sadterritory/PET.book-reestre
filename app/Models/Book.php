@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Book extends Model
 {
@@ -14,9 +13,9 @@ class Book extends Model
 
     protected $guarded = false;
 
-    public function author(): HasOne
+    public function author(): BelongsTo
     {
-        return $this->hasOne(Author::class);
+        return $this->belongsTo(Author::class);
     }
 
     public function genre(): BelongsToMany
