@@ -18,9 +18,13 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
-    public function genre(): BelongsToMany
+    public function genres(): BelongsToMany
     {
-        return $this->BelongsToMany(Genre::class, 'book_genres', 'book_id', 'genre_id');
+        return $this->belongsToMany(
+                Genre::class,
+                'book_genres',
+                'book_id',
+                'genre_id')->withTimestamps();
     }
 
 }

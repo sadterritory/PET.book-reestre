@@ -34,7 +34,7 @@ class AuthorController extends Controller
     public function show(string $id)
     {
         $authors = Author::with('books')->findOrFail($id);
-        return AuthorBookResource::collection($authors);
+        return new AuthorBookResource($authors);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GenreBookResource;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class GenreController extends Controller
      */
     public function index()
     {
-        return Genre::paginate(15);
+        $authors = Genre::withCount('books')
+            ->paginate(5);
+        return GenreBookResource::collection($authors);
     }
 
     /**

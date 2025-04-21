@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('book_title')
                 ->unique();
-            $table->foreignId('genre_id')
-                ->constrained();
             $table->foreignId('author_id')
                 ->constrained();
             $table->enum('edition', ['graphic', 'digital', 'print'])->default('graphic');

@@ -13,7 +13,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('authors')
+        $books = Book::with('author')
             ->orderBy('id', 'desc')
             ->paginate(5);
         return BookAuthorResource::collection($books);
@@ -32,8 +32,8 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        $book = Book::find($id);
-        return BookAuthorResource::collection($book);
+        $book = Book::with('author')->findOrFail($id);
+        return new BookAuthorResource($book);
     }
 
     /**

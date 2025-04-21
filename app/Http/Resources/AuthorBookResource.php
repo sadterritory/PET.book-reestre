@@ -18,10 +18,10 @@ class AuthorBookResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'books' => $this->books->map(function ($book) {
+            'books' => $this->books->map(function ($books) {
                 return [
-                    'book_title' => $book->book_title,
-                    'edition' => $book->edition,
+                    'book_title' => $books->book_title,
+                    'edition' => $books->edition,
                 ];
             }),
             'created_at' => $this->created_at,
