@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,11 +12,11 @@ Route::get('/user', function (Request $request) {
 
 #Public
 
-Route::apiResource('books', AuthorController::class);
+Route::apiResource('books', BookController::class);
 
-#Route::apiResource('/api/books/{id}', [BookController::class, '']);
+Route::apiResource('authors', AuthorController::class);
 
-#Route::apiResource('/api/authors', [AuthorController::class, '']);
+Route::apiResource('genres', GenreController::class);
 
 #Route::apiResource('/api/authors/{id}', [AuthorController::class, '']);
 

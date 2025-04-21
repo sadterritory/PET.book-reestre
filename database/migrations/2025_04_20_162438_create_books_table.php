@@ -19,7 +19,7 @@ return new class extends Migration
                 ->constrained();
             $table->foreignId('author_id')
                 ->constrained();
-            $table->string('edition');
+            $table->enum('edition', ['graphic', 'digital', 'print'])->default('graphic');
             $table->timestamps();
         });
     }
