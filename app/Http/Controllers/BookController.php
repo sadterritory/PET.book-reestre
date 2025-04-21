@@ -24,7 +24,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -32,7 +32,8 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $book = Book::find($id);
+        return BookResource::collection($book);
     }
 
     /**
