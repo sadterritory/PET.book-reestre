@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AuthorResource;
+use App\Http\Resources\AuthorBookResource;
+use App\Http\Resources\AuthorBookCountResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class AuthorController extends Controller
         $authors = Author::withCount('books')
             ->orderBy('id', 'desc')
             ->paginate(5);
-        return AuthorResource::collection($authors);
+        return AuthorBookCountResource::collection($authors);
     }
 
     /**
@@ -32,7 +33,8 @@ class AuthorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $authors = Author::with('books')->findOrFail($id);
+        return AuthorBookResource::collection($authors);
     }
 
     /**

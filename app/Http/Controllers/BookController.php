@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BookResource;
+use App\Http\Resources\BookAuthorResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class BookController extends Controller
         $books = Book::with('authors')
             ->orderBy('id', 'desc')
             ->paginate(5);
-        return BookResource::collection($books);
+        return BookAuthorResource::collection($books);
     }
 
     /**
@@ -33,7 +33,7 @@ class BookController extends Controller
     public function show(string $id)
     {
         $book = Book::find($id);
-        return BookResource::collection($book);
+        return BookAuthorResource::collection($book);
     }
 
     /**
