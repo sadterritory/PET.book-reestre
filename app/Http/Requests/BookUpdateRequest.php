@@ -26,9 +26,9 @@ class BookUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'book_title' => 'string|max:255|unique:books,book_title',
-            'author_id' => 'integer|exists:authors,id',
-            'edition' => 'string|max:255in:' . implode(',', PublicationType::values()),
+            'book_title' => 'sometimes|string|max:255|unique:books,book_title',
+            'author_id' => 'sometimes|integer|exists:authors,id',
+            'edition' => 'sometimes|string|max:255in:' . implode(',', PublicationType::values()),
         ];
     }
 }

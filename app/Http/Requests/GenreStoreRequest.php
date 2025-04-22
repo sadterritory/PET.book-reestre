@@ -23,7 +23,7 @@ class GenreStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'genre_name' => 'required|string|unique:genres,genre_name',
+            'genre_name' => 'required|string|max:255|unique:genres,genre_name',
         ];
     }
 }

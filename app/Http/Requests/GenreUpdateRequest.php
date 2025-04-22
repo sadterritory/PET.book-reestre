@@ -23,7 +23,7 @@ class GenreUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'genre_name' => 'sometimes|string|max:255|unique:genres,genre_name',
         ];
     }
 }
