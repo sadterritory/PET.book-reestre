@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthorUpdateRequest;
 use App\Http\Resources\AuthorBookResource;
 use App\Http\Resources\AuthorBookCountResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
 {
@@ -41,9 +43,11 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AuthorUpdateRequest $request, string $id)
     {
-        //
+        $author = Author::findOrFall($id);
+        $author->update($request->validated());
+        return new AuthorBookResource($author);
     }
 
     /**

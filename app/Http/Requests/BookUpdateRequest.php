@@ -27,7 +27,7 @@ class BookUpdateRequest extends FormRequest
     {
         return [
             'book_title' => 'sometimes|string|max:255|unique:books,book_title',
-            'author_id' => 'sometimes|integer|exists:authors,id',
+            #'author_id' => 'sometimes|integer|exists:authors,id', <-- это админовская фича :)
             'edition' => 'sometimes|string|max:255in:' . implode(',', PublicationType::values()),
         ];
     }

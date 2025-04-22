@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookAuthorResource;
@@ -26,7 +27,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookStoreRequest $request) : JsonResponse
+    public function store(BookStoreRequest $request): JsonResponse
     {
         return response()->json(Book::create($request->validated()));
     }
@@ -47,7 +48,7 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
         $book->update($request->validated());
-        return $book;
+        return new BookAuthorResource($book);
     }
 
     /**
@@ -55,7 +56,10 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        Book::destroy($id);
-        return response()->json(null, 204);
+        if (auth()->user()->role === UserRole::ADMIN) {
+            Book::destroy($id);
+            return response()->json(null, 204);
+        }
+        return response()->json(null, 403);
     }
 }
