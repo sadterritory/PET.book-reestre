@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Resources\GenreBookResource;
 use App\Models\Genre;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index()
     {
         $authors = Genre::withCount('books')
             ->paginate(5);

@@ -45,17 +45,20 @@ Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:san
 
 #Authors zone
 
-Route::prefix('/author')
+Route::prefix('author')
     ->middleware('auth:sanctum', 'role:author')
     ->group(function () {
-
-});
+        Route::apiResource('books', BookController::class);
+        Route::apiResource('authors', AuthorController::class);
+    });
 
 
 #Admin zone
 
-Route::prefix('/admin')
+Route::prefix('admin')
     ->middleware('auth:sanctum', 'role:admin')
     ->group(function () {
-
-});
+        Route::apiResource('books', BookController::class);
+        Route::apiResource('authors', AuthorController::class);
+        Route::apiResource('genres', GenreController::class);
+    });

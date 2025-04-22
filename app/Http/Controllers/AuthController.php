@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
 use App\Models\User;
+use http\Env\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Psy\Util\Json;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request) : JsonResponse
     {
         $data = $request->validate([
             'name' => 'required|string',
@@ -38,7 +41,7 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request)
+    public function login(Request $request) : JsonResponse
     {
         $data = $request->validate([
             'email' => 'required|string|email',
@@ -56,7 +59,7 @@ class AuthController extends Controller
         return response()->json(['token' => $token]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request) : Response
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out']);

@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\GenreBookResource;
-use App\Models\Genre;
+use App\Http\Resources\AuthorBookResource;
+use App\Http\Resources\AuthorBookCountResource;
+use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class GenreController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index()
     {
-        $authors = Genre::withCount('books')
+        $authors = Author::withCount('books')
+            ->orderBy('id', 'desc')
             ->paginate(5);
-        return GenreBookResource::collection($authors);
+        return AuthorBookCountResource::collection($authors);
     }
 
     /**
@@ -32,7 +33,8 @@ class GenreController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $authors = Author::with('books')->findOrFail($id);
+        return new AuthorBookResource($authors);
     }
 
     /**
