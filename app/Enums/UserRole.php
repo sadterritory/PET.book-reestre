@@ -2,14 +2,15 @@
 
 namespace App\Enums;
 
-enum PublicationType: string
+enum UserRole : string
 {
-    case GRAPHIC = 'graphic';
-    case DIGITAL = 'digital';
-    case PRINT = 'print';
+    case AUTHOR = 'author';
+
+    case ADMIN = 'admin';
 
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
     }
+
 }

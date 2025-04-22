@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Nette\Schema\ValidationException;
 
 class AuthController extends Controller
 {
@@ -14,14 +14,17 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'role' => 'required|in' . implode(',', UserRole::values()),
         ]);
 
         try {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password'])
+                'password' => Hash::make($data['password']),
+                #Так как имеется cast в модели - может использовать from, вместо поиска по индексу
+                'role' => UserRole::from($data['role']),
             ]);
 
             if (!$user) {
