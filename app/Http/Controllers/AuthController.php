@@ -15,16 +15,15 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string',
-            'role' => 'required|in' . implode(',', UserRole::values()),
+            'role' => 'required|string|in:' . implode(',', UserRole::values()),
         ]);
-
         try {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 #Так как имеется cast в модели - может использовать from, вместо поиска по индексу
-                'role' => UserRole::from($data['role']),
+                'role' => UserRole::tryFrom($data['role']),
             ]);
 
             if (!$user) {

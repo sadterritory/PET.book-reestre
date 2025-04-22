@@ -12,13 +12,28 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-#Public
+#Public zone
 
-Route::apiResource('books', BookController::class);
+Route::apiResource('books', BookController::class)
+    ->except([
+        'store',
+        'update',
+        'destroy'
+    ]);
 
-Route::apiResource('authors', AuthorController::class);
+Route::apiResource('authors', AuthorController::class)
+    ->except([
+        'store',
+        'update',
+        'destroy'
+    ]);
 
-Route::apiResource('genres', GenreController::class);
+Route::apiResource('genres', GenreController::class)
+    ->except([
+        'store',
+        'update',
+        'destroy'
+    ]);
 
 Route::post('login', [AuthController::class, 'login']);
 
@@ -28,20 +43,19 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');
 
-#Route::apiResource('/api/authors/{id}', [AuthorController::class, '']);
+#Authors zone
 
-#Route::apiResource('/api/genres', [AuthorController::class, '']);
-
-#Authors
-
-Route::prefix('/author')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/author')
+    ->middleware('auth:sanctum', 'role:author')
+    ->group(function () {
 
 });
 
 
+#Admin zone
 
-#Admin
-
-Route::prefix('/admin')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/admin')
+    ->middleware('auth:sanctum', 'role:admin')
+    ->group(function () {
 
 });
