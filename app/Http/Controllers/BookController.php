@@ -45,11 +45,11 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookUpdateRequest $request, string $id) : BookAuthorResource
+    public function update(BookUpdateRequest $request) : BookAuthorResource
     {
         $bookId = $request->validated()['id'];
         $book = Book::findOrFail($bookId);
-        $book->delete();
+        $book->update($request->validated());
         return new BookAuthorResource($book);
     }
 

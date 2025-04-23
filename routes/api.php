@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,26 +52,10 @@ Route::prefix('author')
         Route::apiResource('books', BookController::class)->parameters([
             'books' => 'book'
         ]);;
-        Route::apiResource('authors', AuthorController::class);
+        Route::apiResource('authors', AuthorController::class)->parameters([
+            'authors' => 'author'
+        ]);
     });
-
-//Route::prefix('author')
-//    ->middleware(['auth:sanctum', 'role:author'])
-//    ->group(function () {
-//        Route::apiResource('books', BookController::class)->parameters([
-//            'books' => 'book'
-//        ]);;
-//        Route::apiResource('authors', AuthorController::class);
-//    });
-
-//Route::prefix('author')
-//    ->group(function () {
-//        Route::apiResource('books', BookController::class)->parameters([
-//            'books' => 'book'
-//        ]);
-//        Route::apiResource('authors', AuthorController::class);
-//    });
-
 
 #Admin zone
 

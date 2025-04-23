@@ -6,9 +6,10 @@ use App\Http\Requests\AuthorUpdateRequest;
 use App\Http\Resources\AuthorBookResource;
 use App\Http\Resources\AuthorBookCountResource;
 use App\Models\Author;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
+
 
 class AuthorController extends Controller
 {
@@ -34,7 +35,7 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id) : AuthorBookResource
     {
         $authors = Author::with('books')->findOrFail($id);
         return new AuthorBookResource($authors);
@@ -43,10 +44,26 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AuthorUpdateRequest $request, string $id)
+    public function update(AuthorUpdateRequest $request, string $id) : AuthorBookResource
     {
-        $author = Author::findOrFall($id);
+        $author = Author::findOrFail($id);
         $author->update($request->validated());
+        $user = User::findOrFail($author->user_id);
+
+        if(isset($request->validated()['email']) && $author->user_id) {
+
+            if($user->email !== $request->validated()['email']) {
+                $user->email = $request->validated('email');
+                $user->save();
+
+                \Log::info('User email updated', [
+                    'user_id' => $user->id,
+                    'old_email' => $user->getOriginal('email'),
+                    'new_email' => $request->validated()['email']
+                ]);
+
+            }
+        }
         return new AuthorBookResource($author);
     }
 
