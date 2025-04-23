@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthorStoreRequest extends FormRequest
+class AdminGenreIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class AuthorStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'perPage' => 'sometimes|integer|min:1',
         ];
     }
 }

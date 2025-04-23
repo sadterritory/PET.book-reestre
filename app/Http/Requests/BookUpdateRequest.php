@@ -6,7 +6,6 @@ use App\Enums\PublicationType;
 use App\Enums\UserRole;
 use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class BookUpdateRequest extends FormRequest
 {

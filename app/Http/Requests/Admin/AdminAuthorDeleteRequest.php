@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenreIndexRequest extends FormRequest
+class AdminAuthorDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->role === UserRole::ADMIN;
     }
 
     /**

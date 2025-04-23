@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\BookIndexRequest;
+use App\Http\Requests\Admin\AdminBookIndexRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Resources\Admin\BookStoreResource;
 use App\Http\Resources\AuthorBookCountResource;
@@ -18,7 +18,7 @@ class AdminBookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(BookIndexRequest $request): JsonResponse
+    public function index(AdminBookIndexRequest $request): JsonResponse
     {
         $query = Book::with(['author', 'genres']);
 

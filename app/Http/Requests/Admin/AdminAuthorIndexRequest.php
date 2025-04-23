@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookDeleteRequest extends FormRequest
+class AdminAuthorIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->role === UserRole::ADMIN;
     }
 
     /**
@@ -22,7 +23,7 @@ class BookDeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'perPage' => 'sometimes|integer|min:1',
         ];
     }
 }

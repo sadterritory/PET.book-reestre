@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use App\Http\Requests\Admin\BookIndexRequest;
-use App\Http\Requests\BookDestroyRequest;
+use App\Http\Requests\Admin\AdminBookIndexRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookAuthorResource;
@@ -17,7 +16,7 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(BookIndexRequest $request): AnonymousResourceCollection
+    public function index(AdminBookIndexRequest $request): AnonymousResourceCollection
     {
         $perPage = $request->per_page ?? 15;
         $books = Book::with('author')
@@ -57,18 +56,17 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): BookAuthorResource|JsonResponse
+    public function destroy(string $id): JsonResponse
     {
-        $book = Book::find($id);
-        if (!$book) {
-            abort(404, 'Book not found');
+        $book = Book::findOrFail($id);
+
+        if ($book->author->user_id != auth()->id() && auth()->user()->role !== UserRole::ADMIN) {
+            abort(403, 'You do not have permission to delete this book.');
         }
-        if ((string)$book->author->user_id == (string)auth()->id() || auth()->user()->role === UserRole::ADMIN) {
-            $book->genres()->detach();
-            $book->delete();
-            return new BookAuthorResource($book);
-        } else {
-            return response()->json(['message' => 'You do not have permission to delete this book.'], 403);
-        }
+
+        $book->genres()->detach();
+        $book->delete();
+
+        return new JsonResponse(null, 204);
     }
 }

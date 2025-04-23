@@ -7,16 +7,23 @@ use App\Http\Resources\AuthorBookResource;
 use App\Http\Resources\AuthorBookCountResource;
 use App\Models\Author;
 use App\Models\User;
+use App\Services\AuthorUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 
 class AuthorController extends Controller
 {
+
+    public function __construct(private AuthorUpdateService $authorService)
+    {
+    }
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index(AuthorIndexRequest $request) : AnonymousResourceCollection
+    public function index(AuthorIndexRequest $request): AnonymousResourceCollection
     {
         $perPage = $request->per_page ?? 15;
         $authors = Author::withCount('books')
@@ -36,7 +43,7 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) : AuthorBookResource
+    public function show(string $id): AuthorBookResource
     {
         $authors = Author::with('books')->findOrFail($id);
         return new AuthorBookResource($authors);
@@ -45,26 +52,9 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AuthorUpdateRequest $request, string $id) : AuthorBookResource
+    public function update(AuthorUpdateRequest $request, string $id)
     {
-        $author = Author::findOrFail($id);
-        $author->update($request->validated());
-        $user = User::findOrFail($author->user_id);
-
-        if(isset($request->validated()['email']) && $author->user_id) {
-
-            if($user->email !== $request->validated()['email']) {
-                $user->email = $request->validated('email');
-                $user->save();
-
-                \Log::info('User email updated', [
-                    'user_id' => $user->id,
-                    'old_email' => $user->getOriginal('email'),
-                    'new_email' => $request->validated()['email']
-                ]);
-
-            }
-        }
+        $author = $this->authorService->updateAuthor($request->validated(), $id);
         return new AuthorBookResource($author);
     }
 

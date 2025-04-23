@@ -3,59 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\Author;
 use App\Models\User;
-use http\Env\Response;
+use App\Services\RegisterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Psy\Util\Json;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) : JsonResponse
+
+    public function __construct(
+        private RegisterService $registerService) {}
+
+    public function register(AuthRegisterRequest $request): JsonResponse
     {
-        $data = $request->validate([
-            'first_name' => 'required|string|nullable',
-            'last_name' => 'required|string|nullable',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string',
-            'role' => 'required|string|in:' . implode(',', UserRole::values()),
-        ]);
         try {
-            $user = User::create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                #Так как имеется cast в модели - может использовать from, вместо поиска по индексу
-                'role' => UserRole::from($data['role']),
-            ]);
-
-            if (!$user) {
-                throw new \Exception('User creation failed');
-            }
-
-            if($user->role === UserRole::AUTHOR) {
-                Author::create([
-                    'user_id' => $user->id,
-                    'first_name' => $data['first_name'],
-                    'last_name' => $data['last_name'],
-                    'email' => $data['email'],
-                ]);
-            }
-
-            #Подразумевается, что после регистрации сразу будет выдан токен
-            $token = $user->createToken('auth_token', ['*'], null)->plainTextToken;
-
-            return response()->json(['token' => $token], 201);
+            $result = $this->registerService->register($request->validated());
+            return response()->json(['token' => $result['token']], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            \Log::error($e);
+            return response()->json(['error' => 'Registration failed'], 500);
         }
     }
 
-    public function login(Request $request) : JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $data = $request->validate([
             'email' => 'required|string|email',
@@ -73,7 +46,7 @@ class AuthController extends Controller
         return response()->json(['token' => $token]);
     }
 
-    public function logout(Request $request) : JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out']);
