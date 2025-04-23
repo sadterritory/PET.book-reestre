@@ -24,11 +24,11 @@ class AdminBookIndexRequest extends FormRequest
     {
         return [
             'book_title' => 'sometimes|string',
-            'author_id' => 'sometimes|integer|exists:authors,id',
+            'first_name' => 'sometimes|string',
+            'last_name' => 'sometimes|string',
             'genre' => 'sometimes|string',
-            'genres.*' => 'integer|exists:genres,id',
             'created_at' => 'sometimes|date',
-            'sort_by' => 'sometimes|in:title,created_at',
+            'sort_by' => 'sometimes|in:book_title,created_at',
             'sort_order' => 'sometimes|in:asc,desc',
             'page' => 'sometimes|integer|min:1',
             'per_page' => 'sometimes|integer|min:1|max:100',

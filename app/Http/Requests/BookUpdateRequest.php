@@ -31,10 +31,17 @@ class BookUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'book_title' => 'sometimes|string|max:255|unique:books,book_title',
-            #'author_id' => 'sometimes|integer|exists:authors,id', <-- это админовская фича :)
             'edition' => 'sometimes|string|max:255|in:' . implode(',', PublicationType::values()),
         ];
+
+        #Вроде бы самый лаконичный выход из ситуации с разными правилами валидации для разных ролей пользователя (надеюсь)
+        if ($this->user()->role === UserRole::ADMIN) {
+            $rules['author_id'] = 'sometimes|integer|exists:authors,id';
+        }
+
+        return $rules;
+
     }
 }
