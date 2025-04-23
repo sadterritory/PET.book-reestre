@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Http\Requests\BookDestroyRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookAuthorResource;
@@ -44,22 +45,29 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookUpdateRequest $request, string $id)
+    public function update(BookUpdateRequest $request, string $id) : BookAuthorResource
     {
-        $book = Book::findOrFail($id);
-        $book->update($request->validated());
+        $bookId = $request->validated()['id'];
+        $book = Book::findOrFail($bookId);
+        $book->delete();
         return new BookAuthorResource($book);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): BookAuthorResource|JsonResponse
     {
-        if (auth()->user()->role === UserRole::ADMIN) {
-            Book::destroy($id);
-            return response()->json(null, 204);
+        $book = Book::find($id);
+        if (!$book) {
+            abort(404, 'Book not found');
         }
-        return response()->json(null, 403);
+        if ((string)$book->author->user_id == (string)auth()->id() || auth()->user()->role === UserRole::ADMIN) {
+            $book->genres()->detach();
+            $book->delete();
+            return new BookAuthorResource($book);
+        } else {
+            return response()->json(['message' => 'You do not have permission to delete this book.'], 403);
+        }
     }
 }

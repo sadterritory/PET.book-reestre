@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Enums\PublicationType;
 use App\Enums\UserRole;
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class BookUpdateRequest extends FormRequest
 {
@@ -14,8 +16,13 @@ class BookUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $book = $this->route('book');
-        return $book->author_id == auth()->id || auth()->user()->role === UserRole::ADMIN;
+        $bookId = $this->route('book');
+
+        $book = Book::find($bookId);
+        if (!$book) {
+            abort(404, 'Book not found');
+        }
+        return (string)$book->author->user_id == (string)auth()->id() || auth()->user()->role === UserRole::ADMIN;
     }
 
     /**
@@ -28,7 +35,7 @@ class BookUpdateRequest extends FormRequest
         return [
             'book_title' => 'sometimes|string|max:255|unique:books,book_title',
             #'author_id' => 'sometimes|integer|exists:authors,id', <-- это админовская фича :)
-            'edition' => 'sometimes|string|max:255in:' . implode(',', PublicationType::values()),
+            'edition' => 'sometimes|string|max:255|in:' . implode(',', PublicationType::values()),
         ];
     }
 }

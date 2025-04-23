@@ -21,12 +21,19 @@ class CheckUserRole
             abort(401, 'Unauthenticated');
         }
 
+        $allowedRoles = explode(',', $role);
         $userRole = auth()->user()->role;
+        \Log::debug('Role check debug', [
+            'user_role' => $userRole->value,
+            'allowed_roles' => $allowedRoles,
+            'auth_user' => auth()->user()->toArray(),
+            'role' => $role,
+        ]);
 
         if ($userRole->value !== $role) {
             abort(403, 'Forbidden');
         }
 
-        return redirect('/');
+        return $next($request);
     }
 }

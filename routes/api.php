@@ -46,19 +46,38 @@ Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:san
 #Authors zone
 
 Route::prefix('author')
-    ->middleware('auth:sanctum', 'role:author')
+    ->middleware('auth:sanctum')
     ->group(function () {
-        Route::apiResource('books', BookController::class);
+        Route::apiResource('books', BookController::class)->parameters([
+            'books' => 'book'
+        ]);;
         Route::apiResource('authors', AuthorController::class);
     });
+
+//Route::prefix('author')
+//    ->middleware(['auth:sanctum', 'role:author'])
+//    ->group(function () {
+//        Route::apiResource('books', BookController::class)->parameters([
+//            'books' => 'book'
+//        ]);;
+//        Route::apiResource('authors', AuthorController::class);
+//    });
+
+//Route::prefix('author')
+//    ->group(function () {
+//        Route::apiResource('books', BookController::class)->parameters([
+//            'books' => 'book'
+//        ]);
+//        Route::apiResource('authors', AuthorController::class);
+//    });
 
 
 #Admin zone
 
-Route::prefix('admin')
-    ->middleware('auth:sanctum', 'role:admin')
-    ->group(function () {
-        Route::apiResource('books', BookController::class);
-        Route::apiResource('authors', AuthorController::class);
-        Route::apiResource('genres', GenreController::class);
-    });
+//Route::prefix('admin')
+//    ->middleware(['auth:sanctum', 'role:admin'])
+//    ->group(function () {
+//        Route::apiResource('books', AdminBookController::class);
+//        Route::apiResource('authors', AdminAuthorController::class);
+//        Route::apiResource('genres', AdminGenreController::class);
+//    });
