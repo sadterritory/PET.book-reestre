@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
+use App\Enums\PublicationType;
 use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenreStoreRequest extends FormRequest
+class AdminGenreStoreUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
