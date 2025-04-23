@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GenreIndexRequest;
 use App\Http\Resources\GenreBookResource;
 use App\Models\Genre;
 use Illuminate\Http\Request;
@@ -12,10 +13,11 @@ class GenreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index(GenreIndexRequest $request) : AnonymousResourceCollection
     {
+        $perPage = $request->per_page ?? 15;
         $authors = Genre::withCount('books')
-            ->paginate(5);
+            ->paginate($perPage);
         return GenreBookResource::collection($authors);
     }
 

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Http\Requests\Admin\BookIndexRequest;
 use App\Http\Requests\BookDestroyRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookAuthorResource;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BookController extends Controller
@@ -17,11 +17,12 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(BookIndexRequest $request): AnonymousResourceCollection
     {
+        $perPage = $request->per_page ?? 15;
         $books = Book::with('author')
             ->orderBy('id', 'desc')
-            ->paginate(5);
+            ->paginate($perPage);
         return BookAuthorResource::collection($books);
     }
 

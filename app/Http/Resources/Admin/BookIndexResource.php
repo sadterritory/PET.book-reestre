@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookAuthorResource extends JsonResource
+class BookIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,9 @@ class BookAuthorResource extends JsonResource
         return [
             'id' => $this->id,
             'book_title' => $this->book_title,
-            'author_first_name' => $this->author->first_name,
-            'author_last_name' => $this->author->last_name,
             'edition' => $this->edition,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

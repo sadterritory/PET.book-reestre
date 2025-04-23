@@ -16,11 +16,12 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index(AuthorIndexRequest $request) : AnonymousResourceCollection
     {
+        $perPage = $request->per_page ?? 15;
         $authors = Author::withCount('books')
             ->orderBy('id', 'desc')
-            ->paginate(5);
+            ->paginate($perPage);
         return AuthorBookCountResource::collection($authors);
     }
 

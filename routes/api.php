@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthorController;
+use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminGenreController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +15,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-#Public zone
+#Begin Public zone
 
 Route::apiResource('books', BookController::class)
     ->except([
@@ -40,11 +42,11 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::post('register', [AuthController::class, 'register']);
 
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+#End Public zone
 
-Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');
 
-#Authors zone
+
+#Begin Authors zone
 
 Route::prefix('author')
     ->middleware('auth:sanctum')
@@ -57,12 +59,26 @@ Route::prefix('author')
         ]);
     });
 
-#Admin zone
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-//Route::prefix('admin')
-//    ->middleware(['auth:sanctum', 'role:admin'])
-//    ->group(function () {
-//        Route::apiResource('books', AdminBookController::class);
-//        Route::apiResource('authors', AdminAuthorController::class);
-//        Route::apiResource('genres', AdminGenreController::class);
-//    });
+Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');
+
+#End Authors zone
+
+
+
+#Begin Admin zone
+
+Route::prefix('admin')
+    ->middleware(['auth:sanctum', 'role:admin'])
+    ->group(function () {
+        Route::apiResource('books', AdminBookController::class);
+        Route::apiResource('authors', AdminAuthorController::class);
+        Route::apiResource('genres', AdminGenreController::class);
+    });
+
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');
+
+#End Admin zone
