@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserRole;
 use App\Http\Requests\AuthRegisterRequest;
-use App\Models\Author;
 use App\Models\User;
 use App\Services\RegisterService;
 use Illuminate\Http\JsonResponse;

@@ -1,61 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Книжный реест
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Postgres](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)
+![PhpStorm](http://img.shields.io/badge/-PHPStorm-181717?style=for-the-badge&logo=phpstorm&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Composer](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 
-## About Laravel
+## Оглавление
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [Цель проекта](#Цель-проекта)
+2. [Задачи и требования проекта](#Задачи-и-требования-проекта)
+3. [Необходимые компоненты](#Необходимые-компоненты)
+4. [Api-endpoints](#Api-endpoints)
+5. [Сборка проекта](#Сборка-проекта)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Цель проекта
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Реализация системы управления книгами, авторами и жанрами с разграничением прав доступа через REST API.
 
-## Learning Laravel
+## Задачи и требования проекта
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Основные сущности
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Книга** (с обязательными полями: название, тип издания, автор, жанры)
+- **Автор** (с базовыми полями: имя, контактные данные)
+- **Жанр** (с базовым полем: название)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Связи между сущностями
 
-## Laravel Sponsors
+- Один автор → Много книг (`1:N`)
+- Одна книга → Много жанров (`N:M`)
+- У каждой книги ровно один автор
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Типы книг (реализация через Enum)
 
-### Premium Partners
+1. Графическое издание
+2. Цифровое издание
+3. Печатное издание
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+### Системные требования
 
-## Contributing
+- Логирование всех действий с книгами (в БД или файл)
+- Разграничение прав:
+    - **Администратор** - полный доступ (CRUD)
+    - **Автор** - управление только своими книгами
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Технические особенности
 
-## Code of Conduct
+- Валидация: запрет дублирования названий книг
+- Пагинация на всех списках
+- Подробное логирование изменений
+- Полнотекстовый поиск по книгам
+- Гибкая фильтрация и сортировка
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Api-endpoints
 
-## Security Vulnerabilities
+### Публичный доступ
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Метод | Путь                | Описание                          |
+|-------|---------------------|-----------------------------------|
+| `GET` | `/api/books`        | Список книг с автором (пагинация) |
+| `GET` | `/api/books/{id}`   | Данные книги по ID                |
+| `GET` | `/api/authors`      | Список авторов с кол-вом книг     |
+| `GET` | `/api/authors/{id}` | Данные автора со списком книг     |
+| `GET` | `/api/genres`       | Список жанров с кол-вом книг      |
 
-## License
+### Авторский доступ (требуется аутентификация)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Метод    | Путь                          | Описание                |
+|----------|-------------------------------|-------------------------|
+| `POST`   | `/api/author/logout`          | Logout автора           |
+| `PUT`    | `/api/author/books/{id}`      | Обновление своих книг   |
+| `DELETE` | `/api/author/books/{id}`      | Удаление своих книг     |
+| `PUT`    | `/api/author/authors/profile` | Обновление своих данных |
+
+### Административный доступ
+
+| Метод  | Путь                  | Описание                               |
+|--------|-----------------------|----------------------------------------|
+| `POST` | `/api/admin/logout`   | Logout администратора                  |
+| `CRUD` | `/api/admin/{entity}` | Полное управление (авторы/книги/жанры) |
+| `GET`  | `/api/admin/books`    | Расширенный список книг с фильтрами:   |
+
+## Тестирование работы api
+
+Для теста использовался *Postman*. Коллекции (с документацией внутри) лежат в директории *postman_api_test*
+
+## Сборка проекта
+
+```bash
+# 0. Clone
+git clone <repository-url>
+
+cd <project-directory>
+
+# 1. Set Up .env
+cp .env.example .env
+# Отредактируйте .env (особенно секции DB)
+
+# Выполнение миграций и сидов
+php artisan migrate --seed
+
+# Запуск тестов (не реализованы, но, в случае чего, можно реализовать)
+php artisan test
+
+# 2.1 Run locally 
+php artisan serve
+```

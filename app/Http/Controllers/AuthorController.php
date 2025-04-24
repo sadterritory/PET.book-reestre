@@ -6,7 +6,6 @@ use App\Http\Requests\AuthorUpdateRequest;
 use App\Http\Resources\AuthorBookResource;
 use App\Http\Resources\AuthorBookCountResource;
 use App\Models\Author;
-use App\Models\User;
 use App\Services\AuthorUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

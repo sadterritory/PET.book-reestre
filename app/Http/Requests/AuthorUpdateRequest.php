@@ -31,7 +31,7 @@ class AuthorUpdateRequest extends FormRequest
         return [
             'first_name' => 'sometimes|string|max:255',
             'last_name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:authors,email,'.auth()->id(),
+            'email' => 'sometimes|string|email|max:255|unique:authors,email,' . auth()->id(),
         ];
     }
 }

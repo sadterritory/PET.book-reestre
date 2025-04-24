@@ -1,0 +1,693 @@
+{
+	"info": {
+		"_postman_id": "ca3ff8f4-beb1-4652-acbe-20e7a347bddc",
+		"name": "Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40847158"
+	},
+	"item": [
+		{
+			"name": "Logout admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|AHYzZiiMmxzKLOcUgEysSsCYbgDQN9Vm94UWAgjEb584f9be",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"logout"
+					]
+				},
+				"description": "Logout для авторизованного пользователя"
+			},
+			"response": []
+		},
+		{
+			"name": "Authors/{author}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/authors/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"authors",
+						"1"
+					]
+				},
+				"description": "Получение конкретного автора с указанием информации о его книгах"
+			},
+			"response": []
+		},
+		{
+			"name": "Authors",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\" : \"Ruslanawefawef\",\r\n    \"last_name\" : \"41efawef\",\r\n    \"email\" : \"asdf3342423@mail.ru\",\r\n    \"password\" : \"password\",\r\n    \"role\" : \"author\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/authors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"authors"
+					]
+				},
+				"description": "Добавление нового автора (также происходит регистрация пользователя)"
+			},
+			"response": []
+		},
+		{
+			"name": "Authors",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/authors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"authors"
+					]
+				},
+				"description": "Получение списка авторов (с пагинацией) с количеством книг"
+			},
+			"response": []
+		},
+		{
+			"name": "Authors/{author}",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"TestableEmail@mail.ru\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/authors/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"authors",
+						"1"
+					]
+				},
+				"description": "Обновление данных автора (а также обновление аналогичных полей в таблице Users)"
+			},
+			"response": []
+		},
+		{
+			"name": "Authors/{author}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/authors/12",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"authors",
+						"12"
+					]
+				},
+				"description": "Удаление автора (удаление пользователя, привязанного к автору)"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/books (filters in body)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"sort_order\":\"desc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/books",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"books"
+					]
+				},
+				"description": "**Получение списка книг (с пагинацией) с указанием имени автора, жанров, даты добавления книги.**\n\n**Реализован поиск по названию книги, фильтрацию по автору, фильтрацию по жанрам.**\n\n**Реализована сортировка по названию книги.**"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/books",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"book_title\":\"Custom title\",\r\n    \"author_id\":\"14\",\r\n    \"edition\":\"digital\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/books",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"books"
+					]
+				},
+				"description": "Добавление книги"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/books/{book}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/books/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"books",
+						"1"
+					]
+				},
+				"description": "Получение конкретной книги (+информация об авторе)"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/books/{book}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"edition\":\"digital\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/books/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"books",
+						"1"
+					]
+				},
+				"description": "Обновление данных книги"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/books/{book}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/books/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"books",
+						"1"
+					]
+				},
+				"description": "Удаление книги"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/genres",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "8|vYW9Nbkg4Zlm6z3vjfAAkVBFDSDJihZX8RPZlVwV2abdd5a0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/genres",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"genres"
+					]
+				},
+				"description": "Получение списка жанров с пагинацией"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/genres",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "12|WTF3mDHdeq0dhm394nIpb4HNnGp71JGQUbaCFEyT9bfcb975",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"genre_name\":\"test_genre\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/genres",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"genres"
+					]
+				},
+				"description": "Создание жанра"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/genres/{genre}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "12|WTF3mDHdeq0dhm394nIpb4HNnGp71JGQUbaCFEyT9bfcb975",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/genres/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"genres",
+						"1"
+					]
+				},
+				"description": "Получение конкретного жанра"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/genres/{genre}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "12|WTF3mDHdeq0dhm394nIpb4HNnGp71JGQUbaCFEyT9bfcb975",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"genre_name\":\"new_test_name\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/genres/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"genres",
+						"1"
+					]
+				},
+				"description": "Обновление названия жанра"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin/genres/{genre}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "12|WTF3mDHdeq0dhm394nIpb4HNnGp71JGQUbaCFEyT9bfcb975",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/genres/16",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"genres",
+						"16"
+					]
+				},
+				"description": "Удаление жанра (также удаление всех связей с таблицей Books)"
+			},
+			"response": []
+		}
+	]
+}

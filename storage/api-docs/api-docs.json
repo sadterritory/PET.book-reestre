@@ -1,0 +1,103 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "swagger",
+        "version": "1.0"
+    },
+    "paths": {
+        "/author/{id}": {
+            "patch": {
+                "tags": [
+                    "Author"
+                ],
+                "summary": "update author",
+                "description": "Update the specified resource in storage.",
+                "operationId": "update",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update author",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorBookResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthorUpdateRequest": {
+                "required": [],
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "email@example.com"
+                    }
+                },
+                "type": "object",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "property": "first_name"
+                    },
+                    {
+                        "type": "string",
+                        "property": "last_name"
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "property": "email"
+                    }
+                ]
+            },
+            "AuthorBookResource": {
+                "required": [],
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "email",
+                        "example": "email@example.com"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Author",
+            "description": "Author"
+        }
+    ]
+}
