@@ -39,7 +39,6 @@ class AuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        #Тут можно удалять все токены, оставляя один, чтобы только 1 пользователь мог быть аутентифицирован
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['token' => $token]);
     }

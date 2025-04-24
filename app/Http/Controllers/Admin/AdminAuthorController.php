@@ -73,6 +73,6 @@ class AdminAuthorController extends Controller
         $author = Author::findOrFail($id);
         $author->delete();
 
-        return response()->noContent(); // Статус 204 без тела
+        return response()->noContent();
     }
 }
